@@ -29,7 +29,13 @@ async function run() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
     const database = client.db("crowdfundingDB");
-    const haiku = database.collection("currentUsers");
+    const usersCollection = database.collection("currentUsers");
+
+    app.get('/runningCampaigns', async(req, res) => {
+      const cursor = usersCollection.find();
+      const result = cursor.toArray();
+      res.send(result);
+    })
 
   } finally {
     // Ensures that the client will close when you finish/error
