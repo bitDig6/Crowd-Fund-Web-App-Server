@@ -41,7 +41,7 @@ async function run() {
     app.get('/runningCampaigns/:id', async(req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      const result = campaignsCollection.findOne(query);
+      const result = await campaignsCollection.findOne(query);
       res.send(result);
     })
 
