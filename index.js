@@ -30,9 +30,10 @@ async function run() {
 
     const database = client.db("crowdfundingDB");
     const usersCollection = database.collection("currentUsers");
+    const campaignsCollection = database.collection("runningCampaigns");
 
     app.get('/runningCampaigns', async(req, res) => {
-      const cursor = usersCollection.find();
+      const cursor = campaignsCollection.find();
       const result = cursor.toArray();
       res.send(result);
     })
