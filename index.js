@@ -32,13 +32,13 @@ async function run() {
     const usersCollection = database.collection("currentUsers");
     const campaignsCollection = database.collection("runningCampaigns");
 
-    app.get('/runningCampaigns', async(req, res) => {
+    app.get('/campaigns', async(req, res) => {
       const cursor = campaignsCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     })
 
-    app.get('/runningCampaigns/:id', async(req, res) => {
+    app.get('/campaigns/:id', async(req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await campaignsCollection.findOne(query);
