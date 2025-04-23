@@ -30,15 +30,17 @@ async function run() {
 
     const database = client.db("crowdfundingDB");
     const usersCollection = database.collection("currentUsers");
-    const campaignsCollection = database.collection("runningCampaigns");
+    // const campaignsCollection = database.runningCampaigns.renameCollection("campaigns", { dropTarget: true });
+    const campaignsCollection = database.collection("campaigns");
 
-    app.get('/campaigns', async(req, res) => {
+    app.get('/campaigns', async (req, res) => {
       const cursor = campaignsCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     })
 
-    app.get('/campaigns/:id', async(req, res) => {
+
+    app.get('/campaigns/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await campaignsCollection.findOne(query);
@@ -54,9 +56,9 @@ run().catch(console.log);
 
 
 app.get('/', (req, res) => {
-    res.send('Crowd Funding Web App Server');
+  res.send('Crowd Funding Web App Server');
 })
 
 app.listen(port, (req, res) => {
-    console.log('Server Started at Port: ', port);
+  console.log('Server Started at Port: ', port);
 })
