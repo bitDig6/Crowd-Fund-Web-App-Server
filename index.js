@@ -8,7 +8,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jpi5bfv.mongodb.net/?appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -30,21 +29,26 @@ async function run() {
 
     const database = client.db("crowdfundingDB");
     const usersCollection = database.collection("currentUsers");
-    // const campaignsCollection = database.runningCampaigns.renameCollection("campaigns", { dropTarget: true });
-    const campaignsCollection = database.collection("runningCampaigns");
+    const runningCampaignsCollection = database.collection("runningCampaigns");
+    const campaignsCollection = database.collection("campaigns");
+
 
     app.get('/runningCampaigns', async (req, res) => {
-      const cursor = campaignsCollection.find();
+      const cursor = runningCampaignsCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     })
 
-
     app.get('/runningCampaigns/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      const result = await campaignsCollection.findOne(query);
+      const result = await runningCampaignsCollection.findOne(query);
       res.send(result);
+    })
+
+    app.post('/campaigns', async(req, res) => {
+      const newCampaign = req.body;
+      const result = await campaignsCollection.insertOne(newCampaign);
     })
 
   } finally {
