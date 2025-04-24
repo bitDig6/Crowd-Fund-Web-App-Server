@@ -49,6 +49,7 @@ async function run() {
     app.post('/campaigns', async(req, res) => {
       const newCampaign = req.body;
       const result = await campaignsCollection.insertOne(newCampaign);
+      res.send(result);
     })
 
   } finally {
