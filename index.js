@@ -48,7 +48,7 @@ async function run() {
 
     app.get('/campaigns', async(req, res) => {
       const cursor = campaignsCollection.find();
-      const result = cursor.toArray();
+      const result = await cursor.toArray();
       res.send(result);
     })
 
