@@ -31,6 +31,7 @@ async function run() {
     const usersCollection = database.collection("currentUsers");
     const runningCampaignsCollection = database.collection("runningCampaigns");
     const campaignsCollection = database.collection("campaigns");
+    const donatedCollection = database.collection("donated");
 
 
     app.get('/runningCampaigns', async (req, res) => {
