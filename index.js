@@ -28,7 +28,6 @@ async function run() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
     const database = client.db("crowdfundingDB");
-    const usersCollection = database.collection("currentUsers");
     const runningCampaignsCollection = database.collection("runningCampaigns");
     const campaignsCollection = database.collection("campaigns");
     const donatedCollection = database.collection("donated");
@@ -63,6 +62,13 @@ async function run() {
     app.post('/campaigns', async(req, res) => {
       const newCampaign = req.body;
       const result = await campaignsCollection.insertOne(newCampaign);
+      res.send(result);
+    })
+
+    app.get('myCampaign', async(req, res) => {
+      const email = req.body;
+      const cursor = campaignsCollection.find(email);
+      const result = await cursor.toArray();
       res.send(result);
     })
 
