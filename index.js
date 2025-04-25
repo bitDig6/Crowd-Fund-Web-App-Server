@@ -65,13 +65,6 @@ async function run() {
       res.send(result);
     })
 
-    app.get('myCampaign', async(req, res) => {
-      const email = req.body;
-      const cursor = campaignsCollection.find(email);
-      const result = await cursor.toArray();
-      res.send(result);
-    })
-
     app.post('/donations', async(req, res) => {
       const donation = req.body;
       const result = await donatedCollection.insertOne(donation);
