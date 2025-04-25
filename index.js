@@ -66,6 +66,12 @@ async function run() {
       res.send(result);
     })
 
+    app.post('/donations', async(req, res) => {
+      const donation = req.body;
+      const result = await donatedCollection.insertOne(donation);
+      res.send(result);
+    })
+
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
