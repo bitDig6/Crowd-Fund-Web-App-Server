@@ -73,8 +73,28 @@ async function run() {
 
     app.delete('/campaigns/:id', async(req, res) => {
       const id = req.params.id;
-      const query = { _id: new ObjectId(id)};
+      const filter = { _id: new ObjectId(id)};
       const result = await campaignsCollection.deleteOne(query);
+      res.send(result);
+    })
+
+    app.put('/campaigns/:id', async(req, res) => {
+      const id = req.params.id;
+      const updateData = req.body;
+      const query = { _id: new ObjectId(id)};
+      const options = { upsert: true };
+      const updatedCampaign = {
+        $set: {
+          thumbnail: updateData.thumbnail,
+          title: updateData.title,
+          type: updateData.type,
+          amount: updateData.amount,
+          description: updateData.description,
+          deadline: updateData.deadline,
+          addedBy: updateData.addedBy
+        }
+      };
+      const result = await campaignsCollection.updateOne(filter, updatedCampaign, options);
       res.send(result);
     })
 
